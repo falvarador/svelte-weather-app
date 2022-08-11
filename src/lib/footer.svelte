@@ -1,7 +1,6 @@
 <script>
-    import MediaQuery from "./common/media-query.svelte";
-
-    import SwitchTheme from "./common/switch-theme.svelte";
+    import MediaQuery from "$/lib/common/media-query.svelte";
+    import SwitchTheme from "$/lib/common/switch-theme.svelte";
 </script>
 
 <MediaQuery query="(max-width:576px)" let:matches>

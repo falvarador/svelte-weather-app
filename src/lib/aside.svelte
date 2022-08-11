@@ -1,5 +1,5 @@
 <script>
-    import MediaQuery from "./common/media-query.svelte";
+    import MediaQuery from "$/lib/common/media-query.svelte";
 
     export let humidity = 0,
         windspeed = 0,

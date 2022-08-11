@@ -1,40 +1,50 @@
+/* eslint-disable camelcase */
+import { httpHelper } from '$/helpers/http-helper'
+import { getCurrentPosition } from '$/helpers/location-helper'
+
 const OPTIONS = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '3f9f1fda3emshad21d0f74e6a291p145ddbjsn31b3c933453f',
-		'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
-	}
-};
+  method: 'GET',
+  headers: {
+    'X-RapidAPI-Key': '3f9f1fda3emshad21d0f74e6a291p145ddbjsn31b3c933453f',
+    'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+  }
+}
 
-export const getWeather = async (query = "London") => {
-    try {
-        const response = await fetch(`https://weatherapi-com.p.rapidapi.com/current.json?q=${query}`, OPTIONS);
-        const json = await response.json();
+const http = httpHelper()
 
-        if (!response.ok) {
-            throw new Error(`HTTP status code: ${response.status}`)
-        }
+export const getWeather = async (query = null) => {
+  const currentPosition = await getCurrentPosition()
 
-        const { location, current } = json;
-        const { country, localtime, name } = location;
-        const { condition, humidity, feelslike_c, is_day, temp_c, wind_kph, wind_dir } = current;
-        const { code, icon, text } = condition;
+  if (query == null) {
+    const { error } = currentPosition
+    error ? query = 'Costa Rica' : query = `${currentPosition.lat},${currentPosition.long}`
+  }
 
-        return { 
-            conditionCode: code, 
-            conditionText: text, 
-            country, 
-            feelsLike: feelslike_c, 
-            humidity, 
-            icon,
-            isDay: is_day, 
-            localtime, 
-            locationName: name, 
-            temperature: temp_c, 
-            windDir: wind_dir, 
-            windSpeed: wind_kph 
-        };
-    } catch (error) {
-        return error;
-    }
+  const response = await http.get(`https://weatherapi-com.p.rapidapi.com/current.json?q=${query}`, OPTIONS)
+
+  if (response.error) {
+    const { error } = await response.body
+    const { message } = error
+    throw new Error(message)
+  }
+
+  const { location, current } = response
+  const { country, localtime, name } = location
+  const { condition, humidity, feelslike_c, is_day, temp_c, wind_kph, wind_dir } = current
+  const { code, icon, text } = condition
+
+  return {
+    conditionCode: code,
+    conditionText: text,
+    country,
+    feelsLike: feelslike_c,
+    humidity,
+    icon,
+    isDay: is_day,
+    localtime,
+    locationName: name,
+    temperature: temp_c,
+    windDir: wind_dir,
+    windSpeed: wind_kph
+  }
 }

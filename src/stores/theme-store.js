@@ -1,26 +1,23 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store'
+
+const ls = window.localStorage
 
 const createTheme = () => {
-    const { subscribe, set } 
-        = writable((localStorage.getItem("theme") || "auto"));
+  const { subscribe, set } =
+        writable((ls.getItem('theme') || 'auto'))
 
-    const handleThemeChange = (theme) => {
-        localStorage.setItem("theme", theme);
+  const handleThemeChange = (/** @type {string} */ theme) => {
+    ls.setItem('theme', theme)
+    document.documentElement.setAttribute('data-theme', theme)
+  }
 
-            if(theme === "auto") {
-                document.documentElement.removeAttribute("data-theme");
-            }
-
-            document.documentElement.setAttribute("data-theme", theme);
+  return {
+    subscribe,
+    setTheme: (theme) => {
+      set(theme)
+      handleThemeChange(theme)
     }
-
-    return {
-        subscribe,
-        setTheme: (theme) => {
-            set(theme)
-            handleThemeChange(theme);
-        }
-    }
+  }
 }
 
-export const themeStore = createTheme();
+export const themeStore = createTheme()
