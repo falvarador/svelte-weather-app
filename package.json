@@ -7,17 +7,18 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "purge": "purgecss --css ./node_modules/@picocss/pico/css/pico.css --content src/index.html src/*.svelte src/**/*.svelte src/**/**/*.svelte --safelist :where --output src/assets/app.css",
     "deploy": "npx gh-pages -d dist"
   },
   "eslintConfig": {
     "extends": "standard"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "4.1.3",
+    "@picocss/pico": "1.5.3",
     "@sveltejs/vite-plugin-svelte": "1.0.1",
     "gh-pages": "4.0.0",
+    "purgecss": "4.1.3",
     "standard": "17.0.0",
-    "svelte-preprocess": "4.10.7",
     "svelte": "3.49.0",
     "vite": "3.0.0"
   }
