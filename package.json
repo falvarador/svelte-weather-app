@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "purge": "purgecss --css ./node_modules/@picocss/pico/css/pico.css --content src/index.html src/*.svelte src/**/*.svelte src/**/**/*.svelte --safelist :where --output src/assets/app.css",
+    "purge": "purgecss --css ./node_modules/@picocss/pico/css/pico.css --content src/index.html src/*.svelte src/**/*.svelte src/**/**/*.svelte --safelist :where data-theme --output src/assets/app.css",
     "deploy": "npx gh-pages -d dist"
   },
   "eslintConfig": {

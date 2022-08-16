@@ -1,7 +1,7 @@
 <script>
     import { createEventDispatcher } from "svelte";
 
-    let input = "";
+    let inputValue = "";
     let dispatcher = createEventDispatcher();
 
     function onSubmit(e) {
@@ -19,7 +19,7 @@
         name="search"
         placeholder="Search"
         autocomplete="off"
-        bind:value={input}
+        bind:value={inputValue}
     />
 </form>
 
