@@ -1,8 +1,8 @@
 /* eslint-disable prefer-promise-reject-errors */
-export const getCurrentPosition = async () => {
+export const watchPosition = async () => {
   try {
     return await new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
+      navigator.geolocation.watchPosition(
         position => resolve({
           lat: position.coords.latitude,
           long: position.coords.longitude

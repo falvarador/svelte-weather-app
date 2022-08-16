@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { httpHelper } from '$/helpers/http-helper'
-import { getCurrentPosition } from '$/helpers/location-helper'
+import { watchPosition } from '$/helpers/location-helper'
 
 const OPTIONS = {
   method: 'GET',
@@ -13,11 +13,11 @@ const OPTIONS = {
 const http = httpHelper()
 
 export const getWeather = async (query = null) => {
-  const currentPosition = await getCurrentPosition()
+  const currentPosition = await watchPosition()
 
-  if (query == null) {
+  if (query === null) {
     const { error } = currentPosition
-    error ? query = 'Costa Rica' : query = `${currentPosition.lat},${currentPosition.long}`
+    query = error ? 'Costa Rica' : `${currentPosition.lat},${currentPosition.long}`
   }
 
   const response = await http.get(`https://weatherapi-com.p.rapidapi.com/current.json?q=${query}`, OPTIONS)
@@ -25,7 +25,7 @@ export const getWeather = async (query = null) => {
   if (response.error) {
     const { error } = await response.body
     const { message } = error
-    throw new Error(message)
+    throw message
   }
 
   const { location, current } = response
